@@ -1,9 +1,15 @@
-function App() {
+import { Outlet } from "react-router-dom";
+import Navbar from "./componenets/Navbar";
+
+const App = () => {
   return (
     <>
-      <p className="">Click on the Vite and React logos to learn more</p>
+      <Navbar />
+      <div className="min-h-full pt-16">
+        <Outlet />
+      </div>
     </>
   );
-}
+};
 
 export default App;
