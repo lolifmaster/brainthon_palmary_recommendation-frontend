@@ -1,7 +1,7 @@
-import { FC, useState } from "react";
-import { FetchedProduct } from "../types/fetch-data";
 import { useProductContext } from "@/context/productsProvider";
 import { cn } from "@/lib/utils";
+import { FC } from "react";
+import { FetchedProduct } from "../types/fetch-data";
 
 const Product: FC<FetchedProduct> = ({ category, id, image, name }) => {
   const { toggleProduct, isProductSelected } = useProductContext();

@@ -1,23 +1,38 @@
 import axiosInstance from "@/axios";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useProductContext } from "@/context/productsProvider";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import categories from "../data/catogories";
+import Category from "./Category";
 import ProductsList from "./ProductsList";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { toast } from "./ui/use-toast";
-import { useNavigate } from "react-router-dom";
+import { FetchedProduct } from "@/types/fetch-data";
+import RecommendedList from "./RecommendedList";
 
 const Catogories = () => {
+  const [open, setOpen] = useState<boolean>(false);
+
   const [selectedCategory, setSelectedCategory] = useState(
     categories[0].queryName,
   );
-  const navigate = useNavigate();
 
-  const { selectedProducts } = useProductContext();
+  const [recommendedProducts, setRecommendedProducts] = useState<
+    FetchedProduct[]
+  >([]);
+
+  const { selectedProducts, reset } = useProductContext();
 
   const { mutate, isLoading } = useMutation<AxiosResponse, AxiosError>(
     () =>
@@ -26,11 +41,9 @@ const Catogories = () => {
       }),
     {
       onSuccess: (response) => {
-        toast({
-          title: "Success",
-          description: response.statusText,
-        });
-        navigate("/recommendations");
+        setOpen(true);
+        reset();
+        setRecommendedProducts(response.data);
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (err: any) => {
@@ -45,7 +58,9 @@ const Catogories = () => {
 
   return (
     <section className="container flex max-w-7xl flex-col items-center gap-12">
-      <h1 className="text-center text-3xl">Select Products that you like</h1>
+      <h1 className="text-center text-5xl">
+        Please Select you most 3 favorite products
+      </h1>
       <div className="flex flex-col items-center gap-6">
         <RadioGroup
           defaultValue={categories[0].queryName}
@@ -65,14 +80,7 @@ const Catogories = () => {
                 id={category.queryName}
                 className="peer pointer-events-none opacity-0"
               />
-              <div className="flex flex-col items-center gap-2 rounded outline-offset-8 outline-primary transition-[outline] peer-data-[state=checked]:outline">
-                <img
-                  src={category.image}
-                  alt={category.queryName}
-                  className="h-20 w-32 object-cover"
-                />
-                <p>{category.name}</p>
-              </div>
+              <Category {...category} />
             </Label>
           ))}
         </RadioGroup>
@@ -95,6 +103,21 @@ const Catogories = () => {
           Submit
         </Button>
       </div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="h-[33rem] max-w-3xl gap-12 text-center">
+          <DialogHeader>
+            <DialogTitle className="text-center text-2xl">
+              Thanks for using our service !!!
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              Looking at the product you like, here's some similar products we
+              believe you'll like aswell
+            </DialogDescription>
+          </DialogHeader>
+          <RecommendedList products={recommendedProducts} />
+        </DialogContent>
+        <DialogFooter></DialogFooter>
+      </Dialog>
     </section>
   );
 };

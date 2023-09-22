@@ -1,12 +1,13 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { Toast } from "@/components/ui/toast";
-import { toast } from "@/components/ui/use-toast";
+import { useCustonToast } from "@/hook/useCutsomToast";
+
 interface ProductContextType {
   selectedProducts: number[];
   addProduct: (Product: number) => void;
   removeProduct: (Product: number) => void;
   toggleProduct: (Product: number) => void;
   isProductSelected: (ProductId: number) => boolean;
+  reset: () => void;
 }
 
 export const ProductContext = createContext<ProductContextType | null>(null);
@@ -20,6 +21,8 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const addProduct = (ProductId: number) => {
     setSelectedProducts((prev) => [...prev, ProductId]);
   };
+  const reset = () => setSelectedProducts([]);
+  const { resetToast } = useCustonToast({ reset });
 
   const removeProduct = (ProductId: number) => {
     setSelectedProducts((prev) => prev.filter((id) => id !== ProductId));
@@ -30,11 +33,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
       removeProduct(productId);
     } else {
       if (selectedProducts.length > 2) {
-        toast({
-          title: "You can only select 3 products",
-          description: "Please unselect one of the products to select another",
-          variant: "destructive",
-        });
+        resetToast();
         return;
       }
       addProduct(productId);
@@ -53,6 +52,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     addProduct,
     removeProduct,
     isProductSelected,
+    reset,
   };
 
   return (

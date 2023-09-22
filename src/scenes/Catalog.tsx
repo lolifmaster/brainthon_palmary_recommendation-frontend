@@ -1,10 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../axios";
-import { BounceLoader } from "react-spinners";
-import { Products } from "../types/fetch-data";
+import { ProductProvider } from "@/context/productsProvider";
 import HeroImg from "../assets/kool-hero.png";
 import Catogories from "../components/Categories";
-import { ProductProvider } from "@/context/productsProvider";
 
 const Catalog = () => {
   return (
