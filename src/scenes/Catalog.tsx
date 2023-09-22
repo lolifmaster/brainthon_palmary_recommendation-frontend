@@ -4,7 +4,7 @@ import { BounceLoader } from "react-spinners";
 import { Products } from "../types/fetch-data";
 import HeroImg from "../assets/kool-hero.png";
 import Catogories from "../components/Categories";
-import { ProductProvider } from "@/contect/productsProvider";
+import { ProductProvider } from "@/context/productsProvider";
 
 const Catalog = () => {
   return (

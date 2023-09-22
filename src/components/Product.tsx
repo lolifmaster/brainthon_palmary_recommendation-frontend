@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { FetchedProduct } from "../types/fetch-data";
-import { useProductContext } from "@/contect/productsProvider";
+import { useProductContext } from "@/context/productsProvider";
 import { cn } from "@/lib/utils";
 
 const Product: FC<FetchedProduct> = ({ category, id, image, name }) => {
@@ -8,10 +8,13 @@ const Product: FC<FetchedProduct> = ({ category, id, image, name }) => {
 
   return (
     <div
-      className={cn("cursor-pointer rounded-lg border p-4 shadow-md", {
-        "border-primary": isProductSelected(id),
-        "border-gray-200": !isProductSelected(id),
-      })}
+      className={cn(
+        "cursor-pointer rounded-lg border p-4 shadow-md transition-all",
+        {
+          "border-4 border-primary": isProductSelected(id),
+          "border-gray-200": !isProductSelected(id),
+        },
+      )}
       onClick={() => toggleProduct(id)}
     >
       <div className="mb-2">

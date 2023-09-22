@@ -1,5 +1,5 @@
 import axiosInstance from "@/axios";
-import { useProductContext } from "@/contect/productsProvider";
+import { useProductContext } from "@/context/productsProvider";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
@@ -9,11 +9,13 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { toast } from "./ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Catogories = () => {
   const [selectedCategory, setSelectedCategory] = useState(
     categories[0].queryName,
   );
+  const navigate = useNavigate();
 
   const { selectedProducts } = useProductContext();
 
@@ -28,6 +30,7 @@ const Catogories = () => {
           title: "Success",
           description: response.statusText,
         });
+        navigate("/recommendations");
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (err: any) => {
@@ -76,7 +79,17 @@ const Catogories = () => {
         <ProductsList category={selectedCategory} />
         <Button
           isLoading={isLoading}
-          onClick={() => mutate()}
+          onClick={() => {
+            if (selectedProducts.length < 3) {
+              toast({
+                title: "Error",
+                description: "Please select atleast 3 products",
+                variant: "destructive",
+              });
+              return;
+            }
+            mutate();
+          }}
           variant="outline"
         >
           Submit
