@@ -1,13 +1,11 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./componenets/Navbar";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-32">
-        <Outlet />
-      </main>
+      <Outlet />
     </>
   );
 };

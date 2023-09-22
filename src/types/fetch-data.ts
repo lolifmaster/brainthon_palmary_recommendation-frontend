@@ -9,7 +9,7 @@ export interface Category {
   name: string;
 }
 
-interface FetchedProduct {
+export interface FetchedProduct {
   id: number;
   name: string;
   description: string;
