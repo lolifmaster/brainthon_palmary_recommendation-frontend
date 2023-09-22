@@ -33,7 +33,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
         toast({
           title: "You can only select 3 products",
           description: "Please unselect one of the products to select another",
-          status: "error",
+          variant: "destructive",
         });
         return;
       }

@@ -27,16 +27,14 @@ const Catogories = () => {
         toast({
           title: "Success",
           description: response.statusText,
-          status: "success",
         });
-        console.log(response.data);
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (err: any) => {
         toast({
           title: "Error",
           description: err.response?.data?.message,
-          status: "error",
+          variant: "destructive",
         });
       },
     },

@@ -7,13 +7,6 @@ import Catogories from "../components/Categories";
 import { ProductProvider } from "@/contect/productsProvider";
 
 const Catalog = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["products"],
-    queryFn: () =>
-      axiosInstance.get("product/").then((res) => res.data as Products),
-  });
-
-  if (isLoading) return <BounceLoader />;
   return (
     <main className="min-h-screen space-y-12 pb-12 pt-32">
       <div className="h-full">
