@@ -68,7 +68,7 @@ const Catogories = () => {
                   alt={category.queryName}
                   className="h-20 w-32 object-cover"
                 />
-                <p>{category.queryName}</p>
+                <p>{category.name}</p>
               </div>
             </Label>
           ))}
