@@ -5,9 +5,9 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-full pt-16">
+      <main className="min-h-screen pt-32">
         <Outlet />
-      </div>
+      </main>
     </>
   );
 };
