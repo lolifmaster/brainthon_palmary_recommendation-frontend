@@ -12,10 +12,8 @@ export interface Category {
 export interface FetchedProduct {
   id: number;
   name: string;
-  description: string;
-  price: number;
   image: string;
-  category: Category;
+  category: string;
 }
 
 export type Products = FetchData<FetchedProduct[]>;
