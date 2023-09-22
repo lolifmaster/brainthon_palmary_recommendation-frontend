@@ -4,24 +4,15 @@ import { useProductContext } from "@/contect/productsProvider";
 import { cn } from "@/lib/utils";
 
 const Product: FC<FetchedProduct> = ({ category, id, image, name }) => {
-  const { addProduct, removeProduct, isProductSelected } = useProductContext();
-  const [selected, setSelected] = useState<boolean>(isProductSelected(id));
-  console.log(selected);
+  const { toggleProduct, isProductSelected } = useProductContext();
 
   return (
     <div
       className={cn("cursor-pointer rounded-lg border p-4 shadow-md", {
-        "border-primary": selected,
-        "border-gray-200": !selected,
+        "border-primary": isProductSelected(id),
+        "border-gray-200": !isProductSelected(id),
       })}
-      onClick={() => {
-        if (selected) {
-          removeProduct(id);
-        } else {
-          addProduct(id);
-        }
-        setSelected(!selected);
-      }}
+      onClick={() => toggleProduct(id)}
     >
       <div className="mb-2">
         <img
@@ -32,7 +23,7 @@ const Product: FC<FetchedProduct> = ({ category, id, image, name }) => {
           className="h-auto w-full rounded-lg"
         />
       </div>
-      <div className="mb-1 text-xl font-semibold">{name}</div>
+      <div className="mb-1 line-clamp-1 text-xl font-semibold">{name}</div>
       <div className="mt-2 text-gray-500">Category: {category}</div>
     </div>
   );

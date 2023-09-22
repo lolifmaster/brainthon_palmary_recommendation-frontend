@@ -1,9 +1,11 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-
+import { Toast } from "@/components/ui/toast";
+import { toast } from "@/components/ui/use-toast";
 interface ProductContextType {
   selectedProducts: number[];
   addProduct: (Product: number) => void;
   removeProduct: (Product: number) => void;
+  toggleProduct: (Product: number) => void;
   isProductSelected: (ProductId: number) => boolean;
 }
 
@@ -23,6 +25,22 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     setSelectedProducts((prev) => prev.filter((id) => id !== ProductId));
   };
 
+  const toggleProduct = (productId: number) => {
+    if (isProductSelected(productId)) {
+      removeProduct(productId);
+    } else {
+      if (selectedProducts.length > 2) {
+        toast({
+          title: "You can only select 3 products",
+          description: "Please unselect one of the products to select another",
+          status: "error",
+        });
+        return;
+      }
+      addProduct(productId);
+    }
+  };
+
   const isProductSelected = (ProductId: number) => {
     return selectedProducts.some(
       (id) => id.toString() === ProductId.toString(),
@@ -30,6 +48,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   };
 
   const contextValue: ProductContextType = {
+    toggleProduct,
     selectedProducts,
     addProduct,
     removeProduct,

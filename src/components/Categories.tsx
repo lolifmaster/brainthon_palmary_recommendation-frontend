@@ -1,15 +1,47 @@
-import categories from "../data/catogories";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { Label } from "./ui/label";
+import axiosInstance from "@/axios";
+import { useProductContext } from "@/contect/productsProvider";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
+import categories from "../data/catogories";
 import ProductsList from "./ProductsList";
 import { Button } from "./ui/button";
-import { useProductContext } from "@/contect/productsProvider";
+import { Label } from "./ui/label";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { toast } from "./ui/use-toast";
 
 const Catogories = () => {
   const [selectedCategory, setSelectedCategory] = useState(
     categories[0].queryName,
   );
+
+  const { selectedProducts } = useProductContext();
+
+  const { mutate, isLoading } = useMutation<AxiosResponse, AxiosError>(
+    () =>
+      axiosInstance.post("product/recommendation/", {
+        products: selectedProducts,
+      }),
+    {
+      onSuccess: (response) => {
+        toast({
+          title: "Success",
+          description: response.statusText,
+          status: "success",
+        });
+        console.log(response.data);
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError: (err: any) => {
+        toast({
+          title: "Error",
+          description: err.response?.data?.message,
+          status: "error",
+        });
+      },
+    },
+  );
+
   return (
     <section className="container flex max-w-7xl flex-col items-center gap-12">
       <h1 className="text-center text-3xl">Select Products that you like</h1>
@@ -44,7 +76,13 @@ const Catogories = () => {
           ))}
         </RadioGroup>
         <ProductsList category={selectedCategory} />
-        <Button variant="outline">Submit</Button>
+        <Button
+          isLoading={isLoading}
+          onClick={() => mutate()}
+          variant="outline"
+        >
+          Submit
+        </Button>
       </div>
     </section>
   );
