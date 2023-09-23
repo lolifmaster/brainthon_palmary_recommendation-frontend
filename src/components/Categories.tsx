@@ -59,7 +59,7 @@ const Catogories = () => {
   return (
     <section className="container flex max-w-7xl flex-col items-center gap-12">
       <h1 className="text-center text-5xl">
-        Please Select you most 3 favorite products
+        Please Select your most 3 favorite products
       </h1>
       <div className="flex flex-col items-center gap-6">
         <RadioGroup
