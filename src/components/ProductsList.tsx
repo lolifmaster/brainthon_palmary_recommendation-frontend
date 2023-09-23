@@ -28,7 +28,7 @@ const ProductsList: FC<ProductsListProps> = ({ category }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="grid min-h-[20rem] w-full grid-cols-4 justify-between gap-2 text-center"
+        className="grid min-h-[33rem] w-full grid-cols-4 justify-between gap-2 text-center"
       >
         {products?.results.map((product) => (
           <motion.div

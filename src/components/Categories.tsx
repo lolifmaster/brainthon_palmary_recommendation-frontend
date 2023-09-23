@@ -104,7 +104,7 @@ const Catogories = () => {
         </Button>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="h-[33rem] max-w-3xl gap-12 text-center">
+        <DialogContent className="h-[43rem] max-w-3xl gap-12 text-center">
           <DialogHeader>
             <DialogTitle className="text-center text-2xl">
               Thanks for using our service !!!
