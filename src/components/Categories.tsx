@@ -74,6 +74,8 @@ const Catogories = () => {
               onClick={() => {
                 setSelectedCategory(category.queryName);
               }}
+              aria-label="
+              Click to select a category for product list."
             >
               <RadioGroupItem
                 value={category.queryName}
@@ -104,7 +106,7 @@ const Catogories = () => {
         </Button>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="h-[43rem] max-w-3xl gap-12 text-center">
+        <DialogContent className="h-[43rem] max-w-3xl  text-center">
           <DialogHeader>
             <DialogTitle className="text-center text-2xl">
               Thanks for using our service !!!
@@ -116,7 +118,6 @@ const Catogories = () => {
           </DialogHeader>
           <RecommendedList products={recommendedProducts} />
         </DialogContent>
-        <DialogFooter></DialogFooter>
       </Dialog>
     </section>
   );
