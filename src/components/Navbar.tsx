@@ -1,6 +1,38 @@
-import { Instagram, Twitter, Facebook } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import Logo from "../assets/Palmary.png";
+import { Button } from "./ui/button";
+import { useEffect, useState } from "react";
 const Navbar = () => {
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    if (localStorage.getItem("theme") === null) {
+      localStorage.setItem("theme", "dark");
+    }
+  }, []);
+
+  useEffect(() => {
+    // select html elem
+    const html = document.querySelector("html");
+    //add or remove class dark in html elem according to theme in localstorage.
+    if (localStorage.getItem("theme") === "dark") {
+      html?.classList.add("dark");
+      setTheme("dark");
+    } else {
+      html?.classList.remove("dark");
+      setTheme("light");
+    }
+  }, [theme]);
+
+  const handleThemeSwitch = () => {
+    if (localStorage.getItem("theme") === "light") {
+      setTheme("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      setTheme("light");
+      localStorage.setItem("theme", "light");
+    }
+  };
   return (
     <div className="absolute top-0 w-full border-b pb-1  font-bold">
       <nav className="container flex max-w-7xl items-center justify-between">
@@ -24,19 +56,13 @@ const Navbar = () => {
             <a href="#">Our Advertisement</a>
           </li>
         </ul>
-        <ul>
-          <li className="flex items-start gap-4 text-primary">
-            <a href="#" className="transition-opacity hover:opacity-80">
-              <Facebook />
-            </a>
-            <a href="#" className="transition-opacity hover:opacity-80">
-              <Instagram />
-            </a>
-            <a href="#" className="transition-opacity hover:opacity-80">
-              <Twitter />
-            </a>
-          </li>
-        </ul>
+        <Button variant={"ghost"}>
+          {theme === "light" ? (
+            <Moon size={24} onClick={handleThemeSwitch} />
+          ) : (
+            <Sun size={24} onClick={handleThemeSwitch} />
+          )}
+        </Button>
       </nav>
     </div>
   );
