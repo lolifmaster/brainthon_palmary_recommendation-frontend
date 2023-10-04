@@ -11,14 +11,21 @@ interface ProductsListProps {
 }
 
 const ProductsList: FC<ProductsListProps> = ({ category }) => {
-  const { data: products } = useQuery(["products", category], async () => {
-    const { data } = await axiosInstance.get(`/product`, {
-      params: {
-        category__name: category,
-      },
-    });
-    return data as Products;
-  });
+  const { data: products, isLoading } = useQuery(
+    ["products", category],
+    async () => {
+      const { data } = await axiosInstance.get(`/product`, {
+        params: {
+          category__name: category,
+        },
+      });
+      return data as Products;
+    },
+  );
+
+  if (isLoading) {
+    return <BounceLoader color="red" />;
+  }
 
   return (
     <AnimatePresence mode="wait">
